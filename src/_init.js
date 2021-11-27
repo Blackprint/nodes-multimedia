@@ -5,41 +5,96 @@
 // maybe like loading our dependencies for the nodes
 
 
-/* Parallely load dependencies from CDN here (optional) */
-//>> imports(...) =>  sf.loader.mjs(...) or [import(..), ..];
-var [ SFMediaStream ] = await imports([
-	// This is just an example, remove if not needed
+// Load dependencies
+await imports([
 	"https://cdn.jsdelivr.net/npm/sfmediastream@latest"
 ]);
 
 
-/* or wait until the browser was loaded all script and the DOM was ready
- * without load another dependency
- *
- * Warning: When using this, you must modify wrapped:'mjs' to wrapped:'async-mjs'
- * on blackprint.config.js, to avoid circular waiting (because this module also waiting)
- *
- * Info: imports.task() == sf.loader.task;
- */
-// await imports.task();
-
-
-
-//> Optional, just for Blackprint Editor
-// Let the Blackprint Editor know the source URL where
-// the registerNode and registerInterface belongs to
+// Because .js and .sf is separated
+// we also need to call loadScope just like _init.js
 let Blackprint = window.Blackprint.loadScope({
 	// You can find the URL on Blackprint menu -> Modules
 	// This will also be exported to JSON if this module's nodes is being used
 	url: import.meta.url,
-
-	// This will autoload (*.sf.mjs) and (*.sf.css) file for Browser
-	hasInterface: true,
 });
 
 // Global shared context
-let Context = Blackprint.getContext('Your/Module/Name');
+let Context = Blackprint.getContext('Multimedia');
 
 // This is needed to avoid duplicated event listener when using hot reload
 // Event listener that registered with same slot will be replaced
 Context.EventSlot = {slot: 'my-private-event-slot'};
+
+// Shared function
+Context.objLength = function objLength(obj){
+	var i = 0;
+	for(var k in obj) i++;
+	return i;
+}
+
+// To fix video sync bug
+var fakeDestination = Context.fakeDestination = ScarletsMedia.audioContext.createGain();
+fakeDestination.gain.value = 0
+fakeDestination.connect(ScarletsMedia.audioContext.destination);
+
+// To be extended by Interface on /multimedia/effect
+// Don't immediately put in 'Context.MediaEffect = class MediaEffect {}'
+// Or the compiler will not soft hot reload the class prototype
+// We may need to migrate this to other file, because this file contains 'import.meta'
+// and it may broke when this file will be hot reloaded
+class MediaEffect extends Blackprint.Interface {
+	init(){
+		var iface = this;
+		var node = this.node;
+
+		iface.input.In.on('value', function(target){
+			target.value.connect(iface.audioInput);
+		})
+		.on('disconnect', function(target){
+			target.value.disconnect(iface.audioInput);
+		});
+	}
+};
+
+Context.MediaEffect = MediaEffect;
+
+function customEffectFunctionBind(iface){
+	var node = iface.node;
+	var effect = iface.effect;
+	var data = iface.data;
+
+	for(let prop in data){
+		if(prop.includes('$'))
+			continue;
+
+		let func = effect[prop];
+		if(data[prop] !== void 0)
+			func(data[prop]);
+		else data[prop] = func();
+
+		let value = Number(data[prop].toFixed(2));
+		Object.defineProperty(data, prop, {
+			enumerable:true,
+			get(){ return value },
+			set(val){ func(value = val) }
+		});
+
+		let inputComp = {
+			which: prop,
+			obj: iface.data,
+			whenChanged(now){ func(value = now) }
+		};
+
+		var name = prop[0].toUpperCase()+prop.slice(1);
+
+		var port = node.input.add(name, Number);
+		port.on('value', function(target){
+			data[prop] = target.value; // For data value
+			inputComp.default = target.value;
+			func(target.value); // For ScarletsMediaEffect value
+		});
+
+		port.insertComponent(null, 'comp-port-input', inputComp);
+	}
+}

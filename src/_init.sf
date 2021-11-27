@@ -7,17 +7,12 @@
 // Prepare stuff when the page is loading
 // maybe like loading our dependencies for the nodes
 
-/* If you have loaded any dependency from ./init.js can also wait from here
- * Warning: When using this, you must modify wrapped:'mjs' to wrapped:'async-mjs'
- * on blackprint.config.js, to avoid circular waiting (because this module also waiting)
- *
- * Info: imports.task() == sf.loader.task;
- */
-// await imports.task();
+// If you have loaded any dependency from ./init.js can also wait from here
+await sf.loader.task;
 
 
 // Because .js and .sf is separated
-// we also need to call LoadScope just like _init.js
+// we also need to call loadScope just like _init.js
 let Blackprint = window.Blackprint.loadScope({
 	// You can find the URL on Blackprint menu -> Modules
 	// This will also be exported to JSON if this module's nodes is being used
@@ -25,4 +20,5 @@ let Blackprint = window.Blackprint.loadScope({
 });
 
 // Global shared context
-let Context = Blackprint.getContext('Your/Module/Name');
+let Context = Blackprint.getContext('Multimedia');
+let { fakeDestination, objLength } = Context;
