@@ -18,9 +18,6 @@ Context.IFace.Microphone = class MicrophoneIFace extends Blackprint.Interface {
 	constructor(node){
 		super(node);
 
-		// Constructor for Interface can be executed twice when using Cloned Container
-		if(this.devices !== void 0) return;
-
 		this.selected = 0; // Default, first option
 		this.devices = [];
 		this._waitForInit = false;

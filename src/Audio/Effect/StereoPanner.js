@@ -26,7 +26,6 @@ Context.IFace.StereoPanner = class StereoPannerIFace extends Context.MediaEffect
 	constructor(node){
 		super(node);
 
-		// Constructor for Interface can be executed twice when using Cloned Container
 		this.effect = ScarletsMediaEffect.stereoPanner();
 		this.audioInput = this.effect.input;
 		this.audioOutput = this.effect.output;

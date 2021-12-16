@@ -30,7 +30,6 @@ Context.IFace.Flanger = class FlangerIFace extends Context.MediaEffect {
 	constructor(node){
 		super(node);
 
-		// Constructor for Interface can be executed twice when using Cloned Container
 		this.effect = ScarletsMediaEffect.flanger();
 		this.audioInput = this.effect.input;
 		this.audioOutput = this.effect.output;

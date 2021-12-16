@@ -27,10 +27,9 @@ Context.IFace.ConReverb = class ConReverbIFace extends Context.MediaEffect {
 	constructor(node){
 		super(node);
 
-		// Constructor for Interface can be executed twice when using Cloned Container
-		this.effect ??= ScarletsMediaEffect.conReverb();
-		this.audioInput ??= this.effect.input;
-		this.audioOutput ??= this.effect.output;
+		this.effect = ScarletsMediaEffect.conReverb();
+		this.audioInput = this.effect.input;
+		this.audioOutput = this.effect.output;
 	}
 
 	init(){

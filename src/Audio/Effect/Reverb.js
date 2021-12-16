@@ -29,7 +29,6 @@ Context.IFace.Reverb = class ReverbIFace extends Context.MediaEffect {
 	constructor(node){
 		super(node);
 
-		// Constructor for Interface can be executed twice when using Cloned Container
 		this.effect = ScarletsMediaEffect.reverb();
 		this.audioInput = this.effect.input;
 		this.audioOutput = this.effect.output;

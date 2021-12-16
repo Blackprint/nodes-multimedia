@@ -26,7 +26,6 @@ Context.IFace.PitchShift = class PitchShiftIFace extends Context.MediaEffect {
 	constructor(node){
 		super(node);
 
-		// Constructor for Interface can be executed twice when using Cloned Container
 		this.effect = ScarletsMediaEffect.pitchShift();
 		this.audioInput = this.effect.input;
 		this.audioOutput = this.effect.output;

@@ -28,7 +28,6 @@ Context.IFace.Delay = class DelayIFace extends Context.MediaEffect {
 	constructor(node){
 		super(node);
 
-		// Constructor for Interface can be executed twice when using Cloned Container
 		this.effect = ScarletsMediaEffect.delay();
 		this.audioInput = this.effect.input;
 		this.audioOutput = this.effect.output;

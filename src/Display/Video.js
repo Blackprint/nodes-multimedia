@@ -17,9 +17,7 @@ Blackprint.registerInterface('BPIC/Multimedia/Display/Video',
 Context.IFace.Video = class VideoIFace extends Blackprint.Interface {
 	constructor(node){
 		super(node);
-
-		// Constructor for Interface can be executed twice when using Cloned Container
-		this.stream ??= null;
+		this.stream = null;
 	}
 
 	// Also put stream data on cloned node, or when HTML hot reload

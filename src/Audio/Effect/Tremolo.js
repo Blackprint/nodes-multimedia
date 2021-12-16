@@ -28,7 +28,6 @@ Context.IFace.Tremolo = class TremoloIFace extends Context.MediaEffect {
 	constructor(node){
 		super(node);
 
-		// Constructor for Interface can be executed twice when using Cloned Container
 		this.effect = ScarletsMediaEffect.tremolo();
 		this.audioInput = this.effect.input;
 		this.audioOutput = this.effect.output;

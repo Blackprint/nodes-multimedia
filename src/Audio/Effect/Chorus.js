@@ -28,10 +28,9 @@ Context.IFace.Chorus = class ChorusIFace extends Context.MediaEffect {
 	constructor(node){
 		super(node);
 
-		// Constructor for Interface can be executed twice when using Cloned Container
-		this.effect ??= ScarletsMediaEffect.chorus();
-		this.audioInput ??= this.effect.input;
-		this.audioOutput ??= this.effect.output;
+		this.effect = ScarletsMediaEffect.chorus();
+		this.audioInput = this.effect.input;
+		this.audioOutput = this.effect.output;
 	}
 
 	init(){
