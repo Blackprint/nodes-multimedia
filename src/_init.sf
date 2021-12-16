@@ -4,12 +4,8 @@
 // This script will run first, and then the other .sf files
 // depends on blackprint.config.js configuration
 
-// Prepare stuff when the page is loading
-// maybe like loading our dependencies for the nodes
-
-// If you have loaded any dependency from ./init.js can also wait from here
-await sf.loader.task;
-
+// Wait until everything ready
+await imports.task();
 
 // Because .js and .sf is separated
 // we also need to call loadScope just like _init.js
@@ -22,3 +18,12 @@ let Blackprint = window.Blackprint.loadScope({
 // Global shared context
 let Context = Blackprint.getContext('Multimedia');
 let { fakeDestination, objLength } = Context;
+
+// if _init.js haven't been initialized
+if(Context.EventSlot === void 0){
+	await new Promise(r=> setTimeout(r, 500));
+	await imports.task();
+}
+
+if(!Context.EventSlot)
+	console.log("Race condition");
