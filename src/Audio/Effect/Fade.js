@@ -7,17 +7,19 @@ class FadeNode extends Blackprint.Node {
 		iface.title = 'Fade';
 		iface.description = 'Multimedia Effect';
 
-		iface.data = {
-			volume: 0.5, // First volume
-			time: 0.7, // seconds
-		};
-
 		let node = this;
 		this.input = {
 			In: Blackprint.Port.ArrayOf(AudioNode),
 			Start: Blackprint.Port.Trigger(function(){
-				iface.effect.in(iface.data.volume, iface.data.time, node.output.Finish);
-			})
+				let input = node.input;
+
+				if(input.FadeIn)
+					iface.effect.in(input.Volume, input.Time, node.output.Finish);
+				else iface.effect.out(input.Volume, input.Time, node.output.Finish);
+			}),
+			FadeIn: Boolean,
+			Volume: Number,
+			Time: Number,
 		};
 
 		this.output = {
@@ -32,7 +34,7 @@ Context.IFace.Fade = class FadeIFace extends Context.MediaEffect {
 	constructor(node){
 		super(node);
 
-		this.effect = ScarletsMediaEffect.dubDelay();
+		this.effect = ScarletsMediaEffect.fade();
 		this.audioInput = this.effect.input;
 		this.audioOutput = this.effect.output;
 	}

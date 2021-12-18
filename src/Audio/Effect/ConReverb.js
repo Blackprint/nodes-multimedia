@@ -8,17 +8,26 @@ class ConReverbNode extends Blackprint.Node {
 		iface.description = 'Multimedia Effect';
 
 		iface.data = {
-			bufferFileURL: String, // 0~1
 			mix: 0.5,
 		};
 
 		this.input = {
-			In: Blackprint.Port.ArrayOf(AudioNode)
+			In: Blackprint.Port.ArrayOf(AudioNode),
+			Buffer: AudioBuffer,
 		};
 
 		this.output = {
 			Out: AudioNode
 		};
+	}
+
+	imported(){
+		let {Input, IInput} = this.const;
+		let {iface} = this;
+
+		IInput.Buffer.on('value', Context.EventSlot, function(ev){
+			iface.effect.setBuffer(Input.Buffer);
+		});
 	}
 });
 

@@ -20,7 +20,7 @@ let Blackprint = window.Blackprint.loadScope({
 });
 
 // Global shared context
-let Context = Blackprint.getContext('Multimedia');
+let Context = Blackprint.createContext('Multimedia');
 
 // This is needed to avoid duplicated event listener when using hot reload
 // Event listener that registered with same slot will be replaced
@@ -48,11 +48,11 @@ class MediaEffect extends Blackprint.Interface {
 		var iface = this;
 		var node = this.node;
 
-		iface.input.In.on('value', function(target){
-			target.value.connect(iface.audioInput);
+		iface.input.In.on('value', function({ cable }){
+			cable.value.connect(iface.audioInput);
 		})
-		.on('disconnect', function(target){
-			target.value.disconnect(iface.audioInput);
+		.on('disconnect', function({ cable }){
+			cable.value.disconnect(iface.audioInput);
 		});
 	}
 };
@@ -68,12 +68,16 @@ function customEffectFunctionBind(iface){
 		if(prop.includes('$'))
 			continue;
 
-		let func = effect[prop];
-		if(data[prop] !== void 0)
-			func(data[prop]);
-		else data[prop] = func();
+		let value = data[prop];
 
-		let value = Number(data[prop].toFixed(2));
+		let func = effect[prop];
+		if(value !== void 0)
+			func(value);
+		else value = data[prop] = func();
+
+		if(value.constructor === Number)
+			value = Number(value.toFixed(2));
+
 		Object.defineProperty(data, prop, {
 			enumerable:true,
 			get(){ return value },
@@ -88,11 +92,11 @@ function customEffectFunctionBind(iface){
 
 		var name = prop[0].toUpperCase()+prop.slice(1);
 
-		var port = node.input.add(name, Number);
-		port.on('value', function(target){
-			data[prop] = target.value; // For data value
-			inputComp.default = target.value;
-			func(target.value); // For ScarletsMediaEffect value
+		var port = node.input.add(name, value.constructor);
+		port.on('value', function({ cable }){
+			data[prop] = cable.value; // For data value
+			inputComp.default = cable.value;
+			func(cable.value); // For ScarletsMediaEffect value
 		});
 
 		port.insertComponent(null, 'comp-port-input', inputComp);

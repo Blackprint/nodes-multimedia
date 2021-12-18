@@ -1,3 +1,5 @@
+// ToDo: Fix this and add support for adding more ports to control frequency
+
 Blackprint.registerNode('Multimedia/Audio/Effect/Equalizer',
 class EqualizerNode extends Blackprint.Node {
 	constructor(instance){

@@ -8,7 +8,7 @@ class CutOffNode extends Blackprint.Node {
 		iface.description = 'Multimedia Effect';
 
 		iface.data = {
-			type: String, // lowpass | highpass | midpass
+			type: 'lowpass', // lowpass | highpass | midpass
 			frequency: 350, // Filter node's frequency value
 			width: 1, // Filter node's Q value
 		};
