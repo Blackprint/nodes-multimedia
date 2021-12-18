@@ -5,7 +5,7 @@ class DestinationNode extends Blackprint.Node {
 
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Output/Destination');
 		iface.title = 'Destination';
-		iface.description = 'Multimedia destination';
+		iface.description = 'Audio output';
 
 		this.input = {
 			In: Blackprint.Port.ArrayOf(AudioNode)
@@ -19,14 +19,14 @@ Context.IFace.Destination = class DestinationIFace extends Blackprint.Interface 
 		var destination = ScarletsMedia.audioContext.destination;
 		let iface = this;
 
-		iface.on('cable.connect', Context.EventSlot, function({ port, target }){
+		iface.on('cable.connect', Context.EventSlot, function({ port, cable }){
 			if(port === iface.input.In)
-				target.value.connect(destination);
+				cable.value.connect(destination);
 		});
 
-		iface.on('cable.disconnect', Context.EventSlot, function({ port, target }){
+		iface.on('cable.disconnect', Context.EventSlot, function({ port, cable }){
 			if(port === iface.input.In)
-				target.value.disconnect(destination);
+				cable.value.disconnect(destination);
 		});
 	}
 

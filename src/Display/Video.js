@@ -23,24 +23,24 @@ Context.IFace.Video = class VideoIFace extends Blackprint.Interface {
 	// Also put stream data on cloned node, or when HTML hot reload
 	init(){
 		const {
-			IInput, IOutput, IProperty, // Port interface
-			Input, Output, Property, // Port value
+			IInput, IOutput, // Port interface
+			Input, Output, // Port value
 		} = this.const;
 
 		var My = this;
 
-		IInput.VideoTrack.on('value', Context.EventSlot, function(target){
+		IInput.VideoTrack.on('value', Context.EventSlot, function({ cable }){
 			IInput.MediaStream.disconnectAll();
 
-			My.stream = new MediaStream([target.value]);
+			My.stream = new MediaStream([cable.value]);
 			My.videoElement.prop('srcObject', My.stream);
 			setTimeout(()=> My.videoElement.trigger('play', void 0, true), 200);
 		});
 
-		IInput.MediaStream.on('value', Context.EventSlot, function(target){
+		IInput.MediaStream.on('value', Context.EventSlot, function({ cable }){
 			IInput.VideoTrack.disconnectAll();
 
-			My.stream = target.value;
+			My.stream = cable.value;
 			My.videoElement.prop('srcObject', My.stream);
 			setTimeout(()=> My.videoElement.trigger('play', void 0, true), 200);
 		});
@@ -57,9 +57,7 @@ Context.IFace.Video = class VideoIFace extends Blackprint.Interface {
 		IInput.MediaStream.on('disconnect', Context.EventSlot, disconnect);
 	}
 
-	get videoElement(){
-		return this._videoElement;
-	}
+	get videoElement(){ return this._videoElement }
 	set videoElement(val){
 		if(val == null)
 			return this._videoElement = $([]);
