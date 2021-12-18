@@ -30,7 +30,7 @@ Blackprint.registerInterface('BPIC/Multimedia/Player',
 Context.IFace.Player = class PlayerIFace extends Blackprint.Interface {
 	constructor(node){
 		super(node);
-		this.player ??= document.createElement('video');
+		this.player = document.createElement('video');
 	}
 
 	init(){
@@ -54,8 +54,8 @@ Context.IFace.Player = class PlayerIFace extends Blackprint.Interface {
 			iface.player.pause();
 		}
 
-		iface.input.URL.on('value', function(target){
-			iface.player.src = target.value;
+		iface.input.URL.on('value', Context.EventSlot, function({ cable }){
+			iface.player.src = cable.value;
 		})
 	}
 });
