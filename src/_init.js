@@ -4,12 +4,20 @@
 // Prepare stuff when the page is loading
 // maybe like loading our dependencies for the nodes
 
+// Module loader fix for Resonance
+let Resonance
+window.define = function(_, func){
+	Resonance = func().ResonanceAudio;
+}
+window.define.amd = true;
 
 // Load dependencies
 await imports([
-	"https://cdn.jsdelivr.net/npm/sfmediastream@latest"
+	"https://cdn.jsdelivr.net/npm/sfmediastream@latest",
+	// "https://cdn.jsdelivr.net/npm/resonance-audio/build/resonance-audio.min.js",
 ]);
 
+delete window.define;
 
 // Because .js and .sf is separated
 // we also need to call loadScope just like _init.js

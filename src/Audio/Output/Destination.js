@@ -1,3 +1,6 @@
+// ToDo: implement w3c draft after it's available for multi target audio output
+// https://www.w3.org/TR/audio-output/
+
 Blackprint.registerNode('Multimedia/Audio/Output/Destination',
 class DestinationNode extends Blackprint.Node {
 	constructor(instance){
