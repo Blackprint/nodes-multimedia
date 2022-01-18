@@ -25,7 +25,7 @@ Context.IFace.Video = class VideoIFace extends Blackprint.Interface {
 		const {
 			IInput, IOutput, // Port interface
 			Input, Output, // Port value
-		} = this.const;
+		} = this.ref;
 
 		var My = this;
 

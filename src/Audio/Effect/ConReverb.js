@@ -22,7 +22,7 @@ class ConReverbNode extends Blackprint.Node {
 	}
 
 	imported(){
-		let {Input, IInput} = this.const;
+		let {Input, IInput} = this.ref;
 		let {iface} = this;
 
 		IInput.Buffer.on('value', Context.EventSlot, function(ev){
