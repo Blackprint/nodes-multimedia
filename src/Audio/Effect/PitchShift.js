@@ -1,5 +1,8 @@
 Blackprint.registerNode('Multimedia/Audio/Effect/PitchShift',
 class PitchShiftNode extends Blackprint.Node {
+	static input = { In: Blackprint.Port.ArrayOf(AudioNode) };
+	static output = { Out: AudioNode };
+
 	constructor(instance){
 		super(instance);
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Effect/PitchShift');
@@ -9,14 +12,6 @@ class PitchShiftNode extends Blackprint.Node {
 
 		iface.data = {
 			shift: 0, // -3 ~ 3
-		};
-
-		this.input = {
-			In: Blackprint.Port.ArrayOf(AudioNode)
-		};
-
-		this.output = {
-			Out: AudioNode
 		};
 	}
 });

@@ -1,5 +1,8 @@
 Blackprint.registerNode('Multimedia/Audio/Effect/Distortion',
 class DistortionNode extends Blackprint.Node {
+	static input = { In: Blackprint.Port.ArrayOf(AudioNode) };
+	static output = { Out: AudioNode };
+
 	constructor(instance){
 		super(instance);
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Effect/Distortion');
@@ -9,14 +12,6 @@ class DistortionNode extends Blackprint.Node {
 
 		iface.data = {
 			set: 0.5, // 0 ~ 1
-		};
-
-		this.input = {
-			In: Blackprint.Port.ArrayOf(AudioNode)
-		};
-
-		this.output = {
-			Out: AudioNode
 		};
 	}
 });

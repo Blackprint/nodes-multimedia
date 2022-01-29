@@ -1,5 +1,8 @@
 Blackprint.registerNode('Multimedia/Audio/Effect/Reverb',
 class ReverbNode extends Blackprint.Node {
+	static input = { In: Blackprint.Port.ArrayOf(AudioNode) };
+	static output = { Out: AudioNode };
+
 	constructor(instance){
 		super(instance);
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Effect/Reverb');
@@ -12,14 +15,6 @@ class ReverbNode extends Blackprint.Node {
 			time: 1, // 0 ~ 3
 			decay: 0.1, // 0 ~ 3
 			reverse: false, // boolean
-		};
-
-		this.input = {
-			In: Blackprint.Port.ArrayOf(AudioNode)
-		};
-
-		this.output = {
-			Out: AudioNode
 		};
 	}
 });

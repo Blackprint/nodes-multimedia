@@ -1,14 +1,14 @@
 // Node-> Multimedia/Audio/Input/Microphone
 Blackprint.registerNode('Multimedia/Audio/Input/Microphone',
 class MicrophoneNode extends Blackprint.Node {
+	// Blackprint Node Output
+	static output = { Node: AudioNode };
+
 	constructor(instance){
 		super(instance);
 
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Input/Microphone');
 		iface.title = 'Microphone';
-
-		// Blackprint Node Output
-		this.output = { Node: AudioNode };
 	}
 });
 

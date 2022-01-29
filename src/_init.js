@@ -100,7 +100,7 @@ function customEffectFunctionBind(iface){
 
 		var name = prop[0].toUpperCase()+prop.slice(1);
 
-		var port = node.input.add(name, value.constructor);
+		var port = node.createPort('input', name, value.constructor);
 		port.on('value', function({ cable }){
 			data[prop] = cable.value; // For data value
 			inputComp.default = cable.value;

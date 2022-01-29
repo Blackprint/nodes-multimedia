@@ -1,5 +1,11 @@
 Blackprint.registerNode('Multimedia/Audio/Effect/ConReverb',
 class ConReverbNode extends Blackprint.Node {
+	static input = {
+		In: Blackprint.Port.ArrayOf(AudioNode),
+		Buffer: AudioBuffer,
+	};
+	static output = { Out: AudioNode };
+
 	constructor(instance){
 		super(instance);
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Effect/ConReverb');
@@ -9,15 +15,6 @@ class ConReverbNode extends Blackprint.Node {
 
 		iface.data = {
 			mix: 0.5,
-		};
-
-		this.input = {
-			In: Blackprint.Port.ArrayOf(AudioNode),
-			Buffer: AudioBuffer,
-		};
-
-		this.output = {
-			Out: AudioNode
 		};
 	}
 

@@ -1,31 +1,30 @@
 Blackprint.registerNode('Multimedia/Audio/Effect/Fade',
 class FadeNode extends Blackprint.Node {
+	static input = {
+		In: Blackprint.Port.ArrayOf(AudioNode),
+		Start: Blackprint.Port.Trigger(function(){
+			let input = this.input;
+
+			if(input.FadeIn)
+				iface.effect.in(input.Volume, input.Time, this.output.Finish);
+			else iface.effect.out(input.Volume, input.Time, this.output.Finish);
+		}),
+		FadeIn: Boolean,
+		Volume: Number,
+		Time: Number,
+	};
+
+	static output = {
+		Out: AudioNode,
+		Finish: Function
+	};
+
 	constructor(instance){
 		super(instance);
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Effect/Fade');
 
 		iface.title = 'Fade';
 		iface.description = 'Multimedia Effect';
-
-		let node = this;
-		this.input = {
-			In: Blackprint.Port.ArrayOf(AudioNode),
-			Start: Blackprint.Port.Trigger(function(){
-				let input = node.input;
-
-				if(input.FadeIn)
-					iface.effect.in(input.Volume, input.Time, node.output.Finish);
-				else iface.effect.out(input.Volume, input.Time, node.output.Finish);
-			}),
-			FadeIn: Boolean,
-			Volume: Number,
-			Time: Number,
-		};
-
-		this.output = {
-			Out: AudioNode,
-			Finish: Function
-		};
 	}
 });
 

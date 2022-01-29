@@ -1,19 +1,14 @@
 Blackprint.registerNode('Multimedia/Audio/Effect/Noise',
 class NoiseNode extends Blackprint.Node {
+	static input = { In: Blackprint.Port.ArrayOf(AudioNode) };
+	static output = { Out: AudioNode };
+
 	constructor(instance){
 		super(instance);
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Effect/Noise');
 
 		iface.title = 'Noise';
 		iface.description = 'Multimedia Effect';
-
-		this.input = {
-			In: Blackprint.Port.ArrayOf(AudioNode)
-		};
-
-		this.output = {
-			Out: AudioNode
-		};
 	}
 });
 

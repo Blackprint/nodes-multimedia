@@ -1,5 +1,8 @@
 Blackprint.registerNode('Multimedia/Audio/Effect/DubDelay',
 class DubDelayNode extends Blackprint.Node {
+	static input = { In: Blackprint.Port.ArrayOf(AudioNode) };
+	static output = { Out: AudioNode };
+
 	constructor(instance){
 		super(instance);
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Effect/DubDelay');
@@ -12,14 +15,6 @@ class DubDelayNode extends Blackprint.Node {
 			time: 0.7, // 0 ~ 180
 			feedback: 0.5, // 0 ~ 1
 			cutoff: 700, // 0 ~ 4000
-		};
-
-		this.input = {
-			In: Blackprint.Port.ArrayOf(AudioNode)
-		};
-
-		this.output = {
-			Out: AudioNode
 		};
 	}
 });

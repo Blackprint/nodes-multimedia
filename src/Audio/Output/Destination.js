@@ -3,16 +3,14 @@
 
 Blackprint.registerNode('Multimedia/Audio/Output/Destination',
 class DestinationNode extends Blackprint.Node {
+	static input = { In: Blackprint.Port.ArrayOf(AudioNode) };
+
 	constructor(instance){
 		super(instance);
 
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Output/Destination');
 		iface.title = 'Destination';
 		iface.description = 'Audio output';
-
-		this.input = {
-			In: Blackprint.Port.ArrayOf(AudioNode)
-		};
 	}
 });
 

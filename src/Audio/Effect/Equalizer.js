@@ -2,6 +2,9 @@
 
 Blackprint.registerNode('Multimedia/Audio/Effect/Equalizer',
 class EqualizerNode extends Blackprint.Node {
+	static input = { In: Blackprint.Port.ArrayOf(AudioNode) };
+	static output = { Out: AudioNode };
+
 	constructor(instance){
 		super(instance);
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Effect/Equalizer');
@@ -12,14 +15,6 @@ class EqualizerNode extends Blackprint.Node {
 		iface.data = {
 			frequency: 0.7,
 			decibel: 0.5, // -20 ~ 20
-		};
-
-		this.input = {
-			In: Blackprint.Port.ArrayOf(AudioNode)
-		};
-
-		this.output = {
-			Out: AudioNode
 		};
 	}
 });

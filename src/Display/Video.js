@@ -1,15 +1,15 @@
 Blackprint.registerNode('Multimedia/Display/Video',
 class VideoNode extends Blackprint.Node {
+	static input = {
+		MediaStream: MediaStream,
+		VideoTrack: MediaStreamTrack,
+	}
+
 	constructor(instance){
 		super(instance);
 
 		let iface = this.setInterface('BPIC/Multimedia/Display/Video');
 		iface.title = 'Video Visualization';
-
-		this.input = {
-			MediaStream: MediaStream,
-			VideoTrack: MediaStreamTrack,
-		}
 	}
 });
 

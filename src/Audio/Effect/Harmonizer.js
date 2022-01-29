@@ -1,5 +1,8 @@
 Blackprint.registerNode('Multimedia/Audio/Effect/Harmonizer',
 class HarmonizerNode extends Blackprint.Node {
+	static input = { In: Blackprint.Port.ArrayOf(AudioNode) };
+	static output = { Out: AudioNode };
+
 	constructor(instance){
 		super(instance);
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Effect/Harmonizer');
@@ -11,14 +14,6 @@ class HarmonizerNode extends Blackprint.Node {
 			pitch: 34, // 0 ~ 1
 			slope: 0.65, // 0 ~ 1
 			width: 0.15, // 0 ~ 1
-		};
-
-		this.input = {
-			In: Blackprint.Port.ArrayOf(AudioNode)
-		};
-
-		this.output = {
-			Out: AudioNode
 		};
 	}
 });

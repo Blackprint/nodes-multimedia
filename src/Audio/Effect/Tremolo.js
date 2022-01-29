@@ -1,5 +1,8 @@
 Blackprint.registerNode('Multimedia/Audio/Effect/Tremolo',
 class TremoloNode extends Blackprint.Node {
+	static input = { In: Blackprint.Port.ArrayOf(AudioNode) };
+	static output = { Out: AudioNode };
+
 	constructor(instance){
 		super(instance);
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Effect/Tremolo');
@@ -11,14 +14,6 @@ class TremoloNode extends Blackprint.Node {
 			mix: 0.8, // 0 ~ 1
 			speed: 0.2, // 0 ~ 3
 			depth: 1, // 0 ~ 3
-		};
-
-		this.input = {
-			In: Blackprint.Port.ArrayOf(AudioNode)
-		};
-
-		this.output = {
-			Out: AudioNode
 		};
 	}
 });

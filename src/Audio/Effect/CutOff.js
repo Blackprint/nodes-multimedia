@@ -1,5 +1,8 @@
 Blackprint.registerNode('Multimedia/Audio/Effect/CutOff',
 class CutOffNode extends Blackprint.Node {
+	static input = { In: Blackprint.Port.ArrayOf(AudioNode) };
+	static output = { Out: AudioNode };
+
 	constructor(instance){
 		super(instance);
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Effect/CutOff');
@@ -11,14 +14,6 @@ class CutOffNode extends Blackprint.Node {
 			type: 'lowpass', // lowpass | highpass | midpass
 			frequency: 350, // Filter node's frequency value
 			width: 1, // Filter node's Q value
-		};
-
-		this.input = {
-			In: Blackprint.Port.ArrayOf(AudioNode)
-		};
-
-		this.output = {
-			Out: AudioNode
 		};
 	}
 });

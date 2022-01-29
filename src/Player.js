@@ -1,28 +1,28 @@
 Blackprint.registerNode('Multimedia/Player',
 class PlayerNode extends Blackprint.Node {
+	static output = {
+		AudioNode: AudioNode,
+		Element: HTMLVideoElement,
+		VideoTrack: MediaStreamTrack,
+		AudioTrack: MediaStreamTrack
+	};
+
+	static input = {
+		URL: String,
+		Play: Blackprint.Port.Trigger(function(){
+			this.iface.player.play();
+		}),
+		Pause: Blackprint.Port.Trigger(function(){
+			this.iface.player.pause();
+		}),
+	}
+
 	constructor(instance){
 		super(instance);
 
 		let iface = this.setInterface('BPIC/Multimedia/Player');
 		iface.title = 'Media Player';
 		iface.description = 'Multimedia media player';
-
-		this.output = {
-			AudioNode: AudioNode,
-			Element: HTMLVideoElement,
-			VideoTrack: MediaStreamTrack,
-			AudioTrack: MediaStreamTrack
-		};
-
-		this.input = {
-			URL: String,
-			Play: Blackprint.Port.Trigger(function(){
-				iface.player.play();
-			}),
-			Pause: Blackprint.Port.Trigger(function(){
-				iface.player.pause();
-			}),
-		}
 	}
 });
 

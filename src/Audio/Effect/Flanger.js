@@ -1,5 +1,8 @@
 Blackprint.registerNode('Multimedia/Audio/Effect/Flanger',
 class FlangerNode extends Blackprint.Node {
+	static input = { In: Blackprint.Port.ArrayOf(AudioNode) };
+	static output = { Out: AudioNode };
+
 	constructor(instance){
 		super(instance);
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Effect/Flanger');
@@ -13,14 +16,6 @@ class FlangerNode extends Blackprint.Node {
 			speed: 0.2, // 0 ~ 1
 			depth: 0.1, // 0 ~ 1
 			feedback: 1.1, // 0 ~ 1
-		};
-
-		this.input = {
-			In: Blackprint.Port.ArrayOf(AudioNode)
-		};
-
-		this.output = {
-			Out: AudioNode
 		};
 	}
 });
