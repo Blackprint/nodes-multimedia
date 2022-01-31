@@ -8,7 +8,7 @@ Please specify the version to avoid breaking changes.
 
 ```js
 Blackprint.loadModuleFromURL([
-	'https://cdn.jsdelivr.net/npm/@blackprint/nodes-multimedia@0.0.3/dist/nodes-multimedia.mjs'
+	'https://cdn.jsdelivr.net/npm/@blackprint/nodes-multimedia@0.2/dist/nodes-multimedia.mjs'
 ], {
 	// Turn this on if you want to load .sf.js, and .sf.css
 	// only with single .mjs
