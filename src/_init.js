@@ -1,15 +1,25 @@
 // This script will run first, and then the other files
 // depends on blackprint.config.js configuration
 
+if(!window.Blackprint.Environment.isBrowser){
+	console.log("@blackprint/nodes-multimedia is only for browser, nodes will not be registered");
+	return;
+}
+
 // Prepare stuff when the page is loading
 // maybe like loading our dependencies for the nodes
 
 // Module loader fix for Resonance
 let Resonance
-window.define = function(_, func){
-	Resonance = func().ResonanceAudio;
+
+let hasWindowDefine = window.define != null;
+if(!hasWindowDefine){
+	window.define = function(_, func){
+		Resonance = func().ResonanceAudio;
+	}
+
+	window.define.amd = true;
 }
-window.define.amd = true;
 
 // Load dependencies
 await imports([
@@ -17,7 +27,8 @@ await imports([
 	// "https://cdn.jsdelivr.net/npm/resonance-audio/build/resonance-audio.min.js",
 ]);
 
-delete window.define;
+if(!hasWindowDefine)
+	delete window.define;
 
 // Because .js and .sf is separated
 // we also need to call loadScope just like _init.js
