@@ -9,11 +9,11 @@ class PlayerNode extends Blackprint.Node {
 
 	static input = {
 		URL: String,
-		Play: Blackprint.Port.Trigger(function(){
-			this.iface.player.play();
+		Play: Blackprint.Port.Trigger(function(port){
+			port.iface.play();
 		}),
-		Pause: Blackprint.Port.Trigger(function(){
-			this.iface.player.pause();
+		Pause: Blackprint.Port.Trigger(function(port){
+			port.iface.pause();
 		}),
 	}
 
@@ -30,6 +30,7 @@ Blackprint.registerInterface('BPIC/Multimedia/Player',
 Context.IFace.Player = class PlayerIFace extends Blackprint.Interface {
 	constructor(node){
 		super(node);
+		this._paused = true;
 		this.player = document.createElement('video');
 	}
 
@@ -50,13 +51,24 @@ Context.IFace.Player = class PlayerIFace extends Blackprint.Interface {
 			var mediaStream = iface.player.captureStream();
 			iface.node.output.AudioTrack = mediaStream.getAudioTracks()[0];
 			iface.node.output.VideoTrack = mediaStream.getVideoTracks()[0];
+		}
 
-			iface.player.pause();
+		iface.player.onplay = function(){
+			if(iface._paused) iface.player.pause();
 		}
 
 		iface.input.URL.on('value', Context.EventSlot, function({ cable }){
 			iface.player.src = cable.value;
 		})
+	}
+
+	play(){
+		this._paused = false;
+		this.player.play();
+	}
+	pause(){
+		this._paused = true;
+		this.player.pause();
 	}
 });
 

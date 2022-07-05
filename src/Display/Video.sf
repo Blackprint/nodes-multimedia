@@ -1,5 +1,6 @@
 ## html
 <div class="node" style="transform: translate({{ x }}px, {{ y }}px)">
+  <sf-template path="Blackprint/nodes/template/routes.sf"></sf-template>
   <sf-template path="Blackprint/nodes/template/header.sf"></sf-template>
 
   <div class="content">
@@ -37,21 +38,11 @@ class VideoSketch extends Context.IFace.Video {
     this.videoElement = this.$el('video');
     super.init(el);
   }
+
   initClone(el){
-    this.init();
+    // This will refresh and retrigger play for each element
+    this.videoElement = this.$el('video');
+  }
 
-    function playIt(){
-      $(el.ownerDocument).off('pointerdown', playIt);
-      $('video', el).trigger('play', void 0, true);
-    }
-
-    // Usually the browser will not play the video if user haven't interacted with the document
-    $(el.ownerDocument).once('pointerdown', playIt);
-  }
-  destroy(){
-    this.init();
-  }
-  destroyClone(){
-    this.init();
-  }
+	hotReloadedHTML(){ this.initClone() }
 });

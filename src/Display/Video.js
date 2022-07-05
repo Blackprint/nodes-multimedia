@@ -33,16 +33,14 @@ Context.IFace.Video = class VideoIFace extends Blackprint.Interface {
 			IInput.MediaStream.disconnectAll();
 
 			My.stream = new MediaStream([cable.value]);
-			My.videoElement.prop('srcObject', My.stream);
-			setTimeout(()=> My.videoElement.trigger('play', void 0, true), 200);
+			My._playVideo();
 		});
 
 		IInput.MediaStream.on('value', Context.EventSlot, function({ cable }){
 			IInput.VideoTrack.disconnectAll();
 
 			My.stream = cable.value;
-			My.videoElement.prop('srcObject', My.stream);
-			setTimeout(()=> My.videoElement.trigger('play', void 0, true), 200);
+			My._playVideo();
 		});
 
 		function disconnect(){
@@ -57,6 +55,20 @@ Context.IFace.Video = class VideoIFace extends Blackprint.Interface {
 		IInput.MediaStream.on('disconnect', Context.EventSlot, disconnect);
 	}
 
+	_playVideo(){
+		let val = this._videoElement;
+		for (let i=0; i < val.length; i++){
+			let el = val[i];
+
+			if(el.srcObject === this.stream && !el.paused) continue;
+
+			el.srcObject = this.stream;
+			el.play().catch(function(){
+				$(el.ownerDocument).once('pointerdown', ev => el.play());
+			});
+		}
+	}
+
 	get videoElement(){ return this._videoElement }
 	set videoElement(val){
 		if(val == null)
@@ -67,11 +79,6 @@ Context.IFace.Video = class VideoIFace extends Blackprint.Interface {
 
 		this._videoElement = val;
 		val.prop('srcObject', this.stream);
-
-		// Call el.play() on every element
-		val.trigger('play', void 0, true);
+		this._playVideo();
 	}
-
-	initClone(){ this.init() }
-	hotReloadedHTML(){ this.init() }
 });
