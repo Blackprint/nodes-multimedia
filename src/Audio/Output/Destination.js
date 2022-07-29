@@ -1,16 +1,24 @@
 // ToDo: implement w3c draft after it's available for multi target audio output
 // https://www.w3.org/TR/audio-output/
 
+/**
+ * Send the audio output to destination
+ * This may be your speaker or default output devices
+ * @blackprint node
+ * @summary Audio output
+ */
 Blackprint.registerNode('Multimedia/Audio/Output/Destination',
 class DestinationNode extends Blackprint.Node {
-	static input = { In: Blackprint.Port.ArrayOf(AudioNode) };
+	static input = {
+		/** AudioNode that can be from from Microphone, Effects, etc */
+		In: Blackprint.Port.ArrayOf(AudioNode),
+	};
 
 	constructor(instance){
 		super(instance);
 
 		let iface = this.setInterface('BPIC/Multimedia/Audio/Output/Destination');
 		iface.title = 'Destination';
-		iface.description = 'Audio output';
 	}
 });
 

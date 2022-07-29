@@ -1,7 +1,13 @@
+/**
+ * Visualize video from a stream or video source
+ * @blackprint node
+ */
 Blackprint.registerNode('Multimedia/Display/Video',
 class VideoNode extends Blackprint.Node {
 	static input = {
+		/** Visualize video from a MediaStream */
 		MediaStream: MediaStream,
+		/** Visualize video from a VideoTrack */
 		VideoTrack: MediaStreamTrack,
 	}
 

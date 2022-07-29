@@ -1,8 +1,14 @@
-// Node-> Multimedia/Audio/Input/Microphone
+/**
+ * Obtain audio source from your microphone input
+ * @blackprint node
+ */
 Blackprint.registerNode('Multimedia/Audio/Input/Microphone',
 class MicrophoneNode extends Blackprint.Node {
 	// Blackprint Node Output
-	static output = { Node: AudioNode };
+	static output = {
+		/** AudioNode that stream the microphone data */
+		Node: AudioNode,
+	};
 
 	constructor(instance){
 		super(instance);

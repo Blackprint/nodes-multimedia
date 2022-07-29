@@ -1,19 +1,41 @@
+/**
+ * Media player that can be used to play audio or video from an URL into streamable object.
+ * Make sure CORS is enabled and configured properly if you want to use cross-domain URL
+ * @blackprint node
+ * @summary Multimedia media player
+ */
 Blackprint.registerNode('Multimedia/Player',
 class PlayerNode extends Blackprint.Node {
 	static output = {
+		/** You can connect this audio source to audio destination */
 		AudioNode: AudioNode,
+		/** Player's HTML element */
 		Element: HTMLVideoElement,
-		VideoTrack: MediaStreamTrack,
-		AudioTrack: MediaStreamTrack
+		/** Can be used for obtaining audio or video stream */
+		MediaStream: Blackprint.Port.StructOf(MediaStream, {
+			Video: {type: MediaStreamTrack, handle(data){ return data.getVideoTracks()[0] }},
+			Audio: {type: MediaStreamTrack, handle(data){ return data.getAudioTracks()[0] }},
+		}),
+		/** Total duration of the media file */
+		Duration: Number,
 	};
 
 	static input = {
+		/** This can be Blob URL or remote URL */
 		URL: String,
+		/** Change the start point */
+		Seek: Number,
+		/** Play the media loaded into this player */
 		Play: Blackprint.Port.Trigger(function(port){
 			port.iface.play();
 		}),
+		/** Pause this player */
 		Pause: Blackprint.Port.Trigger(function(port){
 			port.iface.pause();
+		}),
+		/** Pause this player and reset the seek to default */
+		Stop: Blackprint.Port.Trigger(function(port){
+			port.iface.stop();
 		}),
 	}
 
@@ -22,7 +44,6 @@ class PlayerNode extends Blackprint.Node {
 
 		let iface = this.setInterface('BPIC/Multimedia/Player');
 		iface.title = 'Media Player';
-		iface.description = 'Multimedia media player';
 	}
 });
 
@@ -48,9 +69,8 @@ Context.IFace.Player = class PlayerIFace extends Blackprint.Interface {
 
 		// Update tracks after the file is playable
 		iface.player.oncanplay = function(){
-			var mediaStream = iface.player.captureStream();
-			iface.node.output.AudioTrack = mediaStream.getAudioTracks()[0];
-			iface.node.output.VideoTrack = mediaStream.getVideoTracks()[0];
+			iface.node.output.MediaStream = iface.player.captureStream();
+			iface.node.output.Duration = iface.player.duration;
 		}
 
 		iface.player.onplay = function(){
@@ -59,7 +79,11 @@ Context.IFace.Player = class PlayerIFace extends Blackprint.Interface {
 
 		iface.input.URL.on('value', Context.EventSlot, function({ cable }){
 			iface.player.src = cable.value;
-		})
+		});
+
+		iface.input.Seek.on('value', Context.EventSlot, function({ cable }){
+			iface.player.currentTime = cable.value;
+		});
 	}
 
 	play(){
@@ -69,6 +93,11 @@ Context.IFace.Player = class PlayerIFace extends Blackprint.Interface {
 	pause(){
 		this._paused = true;
 		this.player.pause();
+	}
+	stop(){
+		this._paused = true;
+		this.player.pause();
+		this.player.currentTime = 0;
 	}
 });
 

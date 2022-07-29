@@ -36,6 +36,9 @@ let Blackprint = window.Blackprint.loadScope({
 	// You can find the URL on Blackprint menu -> Modules
 	// This will also be exported to JSON if this module's nodes is being used
 	url: import.meta.url,
+
+	// This will autoload (*.docs.json) for Browser
+	hasDocs: true,
 });
 
 // Global shared context
@@ -105,7 +108,7 @@ function customEffectFunctionBind(iface){
 
 		let inputComp = {
 			which: prop,
-			obj: iface.data,
+			data: iface.data,
 			whenChanged(now){ func(value = now) }
 		};
 
