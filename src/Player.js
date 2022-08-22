@@ -26,16 +26,16 @@ class PlayerNode extends Blackprint.Node {
 		/** Change the start point */
 		Seek: Number,
 		/** Play the media loaded into this player */
-		Play: Blackprint.Port.Trigger(function(port){
-			port.iface.play();
+		Play: Blackprint.Port.Trigger(function({ iface }){
+			iface.play();
 		}),
 		/** Pause this player */
-		Pause: Blackprint.Port.Trigger(function(port){
-			port.iface.pause();
+		Pause: Blackprint.Port.Trigger(function({ iface }){
+			iface.pause();
 		}),
 		/** Pause this player and reset the seek to default */
-		Stop: Blackprint.Port.Trigger(function(port){
-			port.iface.stop();
+		Stop: Blackprint.Port.Trigger(function({ iface }){
+			iface.stop();
 		}),
 	}
 
