@@ -37,6 +37,9 @@ let Blackprint = window.Blackprint.loadScope({
 	// This will also be exported to JSON if this module's nodes is being used
 	url: import.meta.url,
 
+	// This will autoload (*.sf.mjs) and (*.sf.css) file for Browser
+	hasInterface: true,
+
 	// This will autoload (*.docs.json) for Browser
 	hasDocs: true,
 });
