@@ -17,7 +17,7 @@ class FadeNode extends Blackprint.Node {
 
 	static output = {
 		Out: AudioNode,
-		Finish: Function
+		Finish: Blackprint.Types.Trigger
 	};
 
 	constructor(instance){
