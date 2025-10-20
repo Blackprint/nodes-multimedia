@@ -33,9 +33,9 @@ Context.IFace.Destination = class DestinationIFace extends Blackprint.Interface 
 				cable.value.connect(destination);
 		});
 
-		iface.on('cable.disconnect', Context.EventSlot, function({ port, cable }){
+		iface.on('cable.disconnect', Context.EventSlot, function({ port, target }){
 			if(port === iface.input.In)
-				cable.value.disconnect(destination);
+				target?.value.disconnect(destination);
 		});
 	}
 

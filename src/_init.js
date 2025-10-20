@@ -6,15 +6,6 @@ if(!window.Blackprint.Environment.isBrowser){
 	return;
 }
 
-// Prepare stuff when the page is loading
-// maybe like loading our dependencies for the nodes
-
-// Load dependencies
-await imports([
-	"https://cdn.jsdelivr.net/npm/sfmediastream@latest",
-	// "https://cdn.jsdelivr.net/npm/resonance-audio/build/resonance-audio.min.js",
-]);
-
 // Because .js and .sf is separated
 // we also need to call loadScope just like _init.js
 let Blackprint = window.Blackprint.loadScope({
@@ -27,6 +18,20 @@ let Blackprint = window.Blackprint.loadScope({
 
 	// This will autoload (*.docs.json) for Browser
 	hasDocs: true,
+});
+
+// Prepare stuff when the page is loading
+// maybe like loading our dependencies for the nodes
+
+var [ SFMediaStream ] = await Blackprint.DepsLoader.js({
+	window: ['SFMediaStream'],
+
+	// need to use 'npm install' first or must exist on node_modules, will dynamically imported
+	local: ['sfmediastream'],
+
+	// for browser, Deno, or supported environment that have internet access
+	cdn: ["https://cdn.jsdelivr.net/npm/sfmediastream@latest"]
+	// "https://cdn.jsdelivr.net/npm/resonance-audio/build/resonance-audio.min.js",
 });
 
 // Global shared context
@@ -61,8 +66,8 @@ class MediaEffect extends Blackprint.Interface {
 		iface.input.In.on('value', function({ cable }){
 			cable.value.connect(iface.audioInput);
 		})
-		.on('disconnect', function({ cable }){
-			cable.value.disconnect(iface.audioInput);
+		.on('disconnect', function({ target, cable }){
+			target.value.disconnect(iface.audioInput);
 		});
 	}
 };
